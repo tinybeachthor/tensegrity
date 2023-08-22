@@ -17,6 +17,7 @@
 
           python3
           poetry
+          conda
 
           stdenv.cc.cc.lib
         ];
