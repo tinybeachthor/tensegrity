@@ -10,18 +10,26 @@
         inherit system;
         overlays = [ ];
       };
+      lib_paths = pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc.lib
+        pkgs.xorg.libX11
+      ];
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           git
+          pkg-config
 
           python3
           poetry
           conda
 
           stdenv.cc.cc.lib
+          xorg.libX11
         ];
-        LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+        shellHook = ''
+          export LD_LIBRARY_PATH="${lib_paths}:$LD_LIBRARY_PATH"
+        '';
       };
     });
 }
